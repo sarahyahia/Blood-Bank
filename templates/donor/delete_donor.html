@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title %}
+Delete Donor Profile
+{% endblock %}
+{% block content%}
+<div class="container mt-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Donors</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Delete Donor</li>
+        </ol>
+    </nav>
+</div>
+<div class="card mx-4 mt-4">
+    <div class="card-header"><h2 class="pt-2 mx-3">Are You Sure You Want To Delete This Donor From Our Database</h2></div>
+    <div class="card-body">
+        <div class="card-body">
+        <h5 class="card-title text-uppercase fw-bold"><strong>Name: </strong>{{ donor.name }}</h5>
+        <p class="card-text">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>National ID:</strong> {{ donor.national_id }}</li>
+                <li class="list-group-item"><strong>Email:</strong> {{ donor.email }}</li>
+                <li class="list-group-item"><strong>City:</strong> {{ donor.city }}</li>
+                <li class="list-group-item"><strong>Blood Type:</strong> {{ donor.blood_type }}</li>
+                <li class="list-group-item"><strong>Last Donation Date:</strong> {{ donor.last_donation_date }}</li>
+                <li class="list-group-item"><strong>Blood Virus Test:</strong> 
+                    {% if donor.blood_virus_test == 'Unknown'  %} 
+                    Unknown
+                    {% elif donor.blood_virus_test == 'Positive' %}
+                    Positive
+                    {% elif donor.blood_virus_test == 'Negative' %} 
+                    Negative
+                    {% endif %}
+                </li>
+            </ul>
+        </p>
+    </div>
+    <form method="post" action="{% url 'delete-donor' donor.pk %}" class="d-grid gap-2">
+        {% csrf_token %}
+        <button class="btn btn-lg btn-danger" type="Submit">Delete</button>
+        <a class="btn btn-lg btn-primary" href="{% url 'donor' donor.id %}">Back </a>
+    </form >
+    </div>
+</div>
+{% endblock %}

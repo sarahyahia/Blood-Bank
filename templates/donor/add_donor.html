@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title %}
+Add Donor
+{% endblock %}
+{% block content%}
+<div class="container mt-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Donors</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Add Donor</li>
+        </ol>
+    </nav>
+</div>
+<div class="card mx-4 mt-4">
+    <div class="card-header"><h2 class="pt-2 mx-3">Add Donor</h2></div>
+    <div class="card-body">
+        <form action="{% url 'add-donor' %}" method="post">
+            {% include "_partials/messages.html" %}
+            {% csrf_token %}
+            {{ form| crispy }}
+            <button type="submit" class="btn btn-primary mt-3 ">Submit</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

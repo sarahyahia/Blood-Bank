@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title %}
+Edit Donor Profile
+{% endblock %}
+{% block content%}
+<div class="container mt-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Donors</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Edit Donor</li>
+        </ol>
+    </nav>
+</div>
+<div class="card mx-4 mt-4">
+    <div class="card-header"><h2 class="pt-2 mx-3">Edit Donor</h2></div>
+    <div class="card-body">
+        <form action="{% url 'edit-donor' donor.id %}" method="post">
+            {% include "_partials/messages.html" %}
+            {% csrf_token %}
+            <div id="div_id_name" class="form-group"> 
+                <label for="id_name" class=" requiredField">
+                    Name<span class="asteriskField">*</span> 
+                </label> 
+                <div class=""> 
+                    <input type="text" name="name" value="{{ donor.name}}" maxlength="127" class="textinput textInput form-control" required="" id="id_name"> 
+                </div> 
+            </div>
+            <div id="div_id_email" class="form-group"> 
+                <label for="id_email" class=" requiredField">Email<span class="asteriskField">*</span> </label> 
+                <div class=""> 
+                    <input type="email" name="email" value="{{ donor.email}}" maxlength="254" class="emailinput form-control" required="" id="id_email"> 
+                </div> 
+            </div>
+            <div id="div_id_city" class="form-group"> 
+                <label for="id_city" class=" requiredField">
+                    city<span class="asteriskField">*</span> 
+                </label> 
+                <div class=""> 
+                    <select name="city" class="select form-control" required="" id="id_city"> 
+                        <option value="">---------</option> 
+                        {% for city in cities %}
+                        
+                        <option value="{{ city.id }}"
+                        {% if city.id == donor.city.id %} 
+                        selected 
+                        {% endif %}
+                        >{{ city.name }}</option> 
+                        {% endfor %}
+                    </select> 
+                </div> 
+            </div>
+            <div id="div_id_national_id" class="form-group"> 
+                <label for="id_national_id" class=" requiredField">National ID<span class="asteriskField">*</span> </label>
+                <div class=""> 
+                    <input type="text" name="national_id" value="{{ donor.national_id }}" class="textinput textInput form-control" required="" id="id_national_id"> 
+                    <small id="hint_id_national_id" class="form-text text-muted">exact 14 unique number.</small> 
+                </div> 
+            </div>
+            <div id="div_id_blood_type" class="form-group"> 
+                <label for="id_blood_type" class=" requiredField">Blood Type<span class="asteriskField">*</span> </label>
+                <div class=""> 
+                    <select name="blood_type" class="select form-control" required="" id="id_blood_type"> 
+                        <option value="">---------</option> 
+                        {% for type in blood_types %}
+                        
+                        <option value="{{ type.id }}"
+                        {% if type.id == donor.blood_type.id %} 
+                        selected 
+                        {% endif %}
+                        >{{ type.name }}</option> 
+                        {% endfor %}
+                    </select> 
+                </div> 
+            </div>
+            <div id="div_id_last_donation_date" class="form-group"> 
+                <label for="id_last_donation_date" class="">Last donation date</label>
+                <div class=""> 
+                    <input type="date" name="last_donation_date" value="{{ donor.last_donation_date |date:'Y-m-d' }}" class="form-control dateinput form-control" placeholder="Select Date" id="id_last_donation_date"> 
+                </div> 
+            </div>
+            <div id="div_id_blood_virus_test" class="form-group"> 
+                <label for="id_blood_virus_test" class="">
+                    Blood virus test
+                </label> 
+                <div class=""> 
+                <select name="blood_virus_test" class="nullbooleanselect form-control" id="id_blood_virus_test">
+                    <option disabled value="unknown" 
+                        {% if donor.blood_virus_test == 'Unknown'  %} 
+                        selected 
+                        {% endif %}>Unknown</option> 
+                    <option value="Positive" 
+                        {% if donor.blood_virus_test == 'Positive'  %} 
+                        selected 
+                        {% endif %}>Positive</option> 
+                    <option value="Negative"{% if donor.blood_virus_test == 'Negative' %} 
+                        selected 
+                        {% endif %}>Negative</option>
+                </select> 
+                </div> 
+            </div>
+            <button type="submit" class="btn btn-primary mt-3 ">Save</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
