@@ -17,6 +17,7 @@ from django.contrib import messages
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+TESTING = len(sys.argv) > 1 and sys.argv[1] == 'test'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -174,7 +175,7 @@ SITE_ID = 2
 
 LOGIN_REDIRECT_URL ='/'
 ACCOUNT_EMAIL_REQUIRED = True
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 MESSAGE_TAGS = {
     messages.ERROR: 'danger'

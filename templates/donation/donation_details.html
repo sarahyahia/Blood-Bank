@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title %}
+Donation information
+{% endblock %}
+{% block content%}
+<div class="container mt-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'donations' %}">Donations</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Donation Form</li>
+        </ol>
+    </nav>
+</div>
+<div class="card mx-4 mt-4">
+    <div class="card-header"><h2 class="pt-2 mx-3">Donation Form</h2></div>
+    <div class="card-body">
+    {% include "_partials/messages.html" %}
+        <h5 class="card-title text-uppercase fw-bold"><strong>Donor Name: </strong>{{ donation.donor.name }}</h5>
+        <p class="card-text">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>Email:</strong> {{ donation.donor.email }}</li> 
+                <li class="list-group-item"><strong>Quantity:</strong> {{ donation.quantity}}</li>
+                <li class="list-group-item"><strong>Blood Type:</strong> {{ donation.donor.blood_type }}</li>
+                <li class="list-group-item"><strong>Status:</strong> {{ donation.status }}</li>
+            </ul>
+        </p>
+
+        {% comment %} <a href="{% url 'edit-donor' donor.pk %}" class="btn btn-primary">Edit</a>
+        <a href="{% url 'delete-donor' donor.pk %}" class="btn btn-danger">Delete</a> {% endcomment %}
+    </div>
+</div>
+{% endblock %}

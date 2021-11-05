@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title %}
+Donation Form
+{% endblock %}
+{% block content%}
+<div class="container mt-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Donations</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Add Donation</li>
+        </ol>
+    </nav>
+</div>
+<div class="card mx-4 mt-4">
+    <div class="card-header"><h2 class="pt-2 mx-3">Add Donation</h2></div>
+    <div class="card-body">
+        <form action="{% url 'add-donation' %}" method="post">
+            {% include "_partials/messages.html" %}
+            {% csrf_token %}
+            <div class="mb-3 form-group">
+                <label for="exampleInputUsername1" class="form-label">Donor National ID</label>
+                <input
+                type="text"
+                name="naitonal_id"
+                id="nationalIDField"
+                value="{{data.naitonal_id}}"
+                class="form-control"
+                />
+            </div>
+            <div class="invalid_feedback invalid-feedback" style="display:none">
+            </div>
+            <p class="text-sm mx-3 text-success nationalIDSuccessOutput"></p>
+            <div class="mb-3 form-group">
+                <label for="exampleInputUsername1" class="form-label">Quantity</label>
+                <input
+                type="text"
+                name="quantity"
+                id="quantityField"
+                value="{{data.quantity}}"
+                class="form-control"
+                />
+            </div>
+            <div class="d-grid gap-2 mx-3">
+                <button type="submit" class="btn btn-block btn-primary submit-btn">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="{% static 'js/addDonation.js' %}"></script>
+
+{% endblock %}

@@ -27,7 +27,7 @@
                 <a class="nav-link px-3" href=''>{{ request.user.username }}</a>
                 </div>
                 <div class="nav-item text-nowrap">
-                <a class="nav-link px-3" href=''>Sign out</a>
+                <a class="nav-link px-3" href='{% url "account_logout" %}'>Sign out</a>
                 </div>
             </div>
         </header>

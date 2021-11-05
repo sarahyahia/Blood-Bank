@@ -1,5 +1,5 @@
 from django import forms
-from .models import Donor, BloodType
+from .models import Donor, BloodType, Donation
 from city.models import City
 import datetime
 
@@ -16,3 +16,11 @@ class DonorForm(forms.ModelForm):
         widgets= {
             'last_donation_date': forms.DateInput(format=('%Y-%m-%d'), attrs={'class':'form-control', 'placeholder':'Select Date','type': 'date'})
         }
+
+
+
+class DonationForm(forms.ModelForm):
+    donor = forms.ModelChoiceField(label=('Donor'),queryset=Donor.objects.all())
+    class Meta:
+        model = Donation
+        fields = ['donor', 'quantity']
