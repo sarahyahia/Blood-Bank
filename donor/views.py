@@ -19,6 +19,7 @@ from django.template.loader import get_template
 from django.core.mail import EmailMultiAlternatives
 from django.core.mail import EmailMultiAlternatives
 from django.conf import settings
+from helpers.decorators import staff_required
 
 
 class EmailThread(threading.Thread):
@@ -72,7 +73,7 @@ def validate_national_id(value,request):
 
 
 ########################################################
-
+@staff_required(login_url='/')
 def index(request):
     donors = Donor.objects.all()
     paginator = Paginator(donors, 5)
@@ -86,7 +87,7 @@ def index(request):
 
 
 ########################################################
-
+@staff_required(login_url='/')
 def donor_details(request,id):
     donor = get_object_or_404(Donor, pk=id)
     context = {
@@ -96,7 +97,7 @@ def donor_details(request,id):
 
 
 ########################################################
-
+@staff_required(login_url='/')
 def add_donor(request):
     form = DonorForm()
     context = {'form': form}
@@ -146,6 +147,7 @@ def add_donor(request):
 
 ########################################################
 
+@staff_required(login_url='/')
 def edit_donor(request,id):
     donor = get_object_or_404(Donor, pk=id)
     cities = City.objects.all()
@@ -231,18 +233,20 @@ def edit_donor(request,id):
 
 ########################################################
 
+@staff_required(login_url='/')
 def delete_donor(request, id):
     donor = get_object_or_404(Donor, pk=id)
     context = {'donor':donor}
     if request.method == 'POST':
         donor.delete()
         messages.add_message(request, messages.SUCCESS, 'Donor was deleted successfully')
-        return HttpResponseRedirect(reverse('home'))
+        return HttpResponseRedirect(reverse('donors'))
     return render(request, 'donor/delete_donor.html', context)
 
 
 ########################################################
 
+@staff_required(login_url='/')
 def search_donors(request):
     if request.method == 'POST':
             search_str = json.loads(request.body).get('searchText')
@@ -264,6 +268,7 @@ def search_donors(request):
 ########################################################
 
 
+@staff_required(login_url='/')
 def donation_list(request):
     donation_list = Donation.objects.all()
     print(donation_list)
@@ -297,6 +302,7 @@ def validate_donor_for_donation(request):
 ########################################################
 
 
+@staff_required(login_url='/')
 def add_donation(request):
     form = DonationForm()
     context={
@@ -322,6 +328,7 @@ def add_donation(request):
 ########################################################
 
 
+@staff_required(login_url='/')
 def donation_details(request,id):
     donation = Donation.objects.get(pk=id)
     context = {'donation':donation}
@@ -331,6 +338,7 @@ def donation_details(request,id):
 ########################################################
 
 
+@staff_required(login_url='/')
 def blood_stock(request):
     blood_banks = BloodStock.objects.all()
     paginator = Paginator(blood_banks, 5)

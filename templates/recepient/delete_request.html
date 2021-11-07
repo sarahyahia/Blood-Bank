@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title %}
+Delete Blood Request
+{% endblock %}
+{% block content%}
+<div class="container mt-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'donors' %}">Requests</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Delete Request</li>
+        </ol>
+    </nav>
+</div>
+<div class="card mx-4 mt-4">
+    <div class="card-header"><h2 class="pt-2 mx-3">Are You Sure You Want To Delete This Request From Our Database</h2></div>
+    <div class="card-body">
+        <div class="card-body">
+        <h5 class="card-title text-uppercase fw-bold"><strong>Request No.: </strong>{{ blood_request.id }}</h5>
+        <p class="card-text">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>Hospital Name:</strong> {{ blood_request.hospital.hospital_name }}</li>
+                <li class="list-group-item"><strong>Blood Type:</strong> {{ blood_request.blood_type }}</li>
+                <li class="list-group-item"><strong>Patient Status:</strong> {{ blood_request.patient_status }}</li>
+                <li class="list-group-item"><strong>Quantity:</strong>{{ blood_request.quantity }}</li>
+                <li class="list-group-item"><strong>Request Status:</strong>{{ blood_request.request_status }}</li>
+                <li class="list-group-item"><strong>Create At:</strong>{{ blood_request.date }}</li>
+            </ul>
+        </p>
+    </div>
+    <form method="post" action="{% url 'delete-request' blood_request.pk %}" class="d-grid gap-2">
+        {% csrf_token %}
+        <button class="btn btn-lg btn-danger" type="Submit">Delete</button>
+        <a class="btn btn-lg btn-primary" href="{% url 'request' blood_request.id %}">Back </a>
+    </form >
+    </div>
+</div>
+{% endblock %}

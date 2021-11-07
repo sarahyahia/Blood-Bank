@@ -17,7 +17,7 @@ searchField.addEventListener('keyup', (e) => {
         
         paginationContainer.style.display = 'none';
         tbody.innerHTML = "";
-        fetch("/search-donors", {
+        fetch("/donors/search-donors", {
             body: JSON.stringify({ searchText: searchValue }),
             method: "POST",
             headers : { 

@@ -1,0 +1,105 @@
+{% extends "recepient/base.html" %}
+{% load static %}
+{% block title %}
+Requests
+{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <div class="row mx-3 ">
+        <div class="col-md-10">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Recepients</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Requests</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="col-md-2">
+            <a href="{% url 'add-request' %}">
+                <input type="button" class="btn btn-primary btn-sm" value="Request"/>
+            </a>
+        </div>
+    </div>
+
+    <div class="container">
+    {% include "_partials/messages.html" %}
+    {% if requests.count %}
+        <div class="row my-3">
+            <div class="col-md-8 justify-content-end d-flex">
+                {% comment %} <a href="{% url 'export-pdf'%}" class="mr-2 btn btn-primary">Export PDF</a>
+                <a href="{% url 'export-excel'%}" class="mx-2 btn btn-success">Export Excel</a>
+                <a href="{% url 'export-csv'%}" class="btn btn-secondary">Export CSV</a> {% endcomment %}
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <input type="text" class="form-control" id="searchField" placeholder="search...">
+                </div>
+            </div>
+        </div>
+
+        <div class="app-table">
+            <table class="table table-striped table-hover mx-3">
+                <thead>
+                    <tr>
+                        <th>Hospital</th>
+                        <th>Blood Type</th>
+                        <th>Patient Status</th>
+                        <th>Quantity</th>
+                        <th>Request Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for request in pg_object %}
+                    <tr>
+                        <td><a class="txt-link" href="{% url 'request' request.pk %}">{{request.hospital.hospital_name}}</a></td>
+                        <td>{{request.blood_type}}</td>
+                        <td>{{request.patient_status}}</td>
+                        <td>{{request.quantity}}</td>
+                        <td>{{request.request_status}}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <p class="no-results" style="display: none;">No results </p>
+        <div class="table-output">
+            <table class="table table-striped table-hover mx-3">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>National ID</th>
+                        <th>Blood Type</th>
+                        <th>City</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody class="t-body">
+                
+                </tbody>
+            </table>
+
+            </div>
+        <div class="pagination pagination-container ms-3">
+            <div>
+                {{pg_object.number}} out of {{pg_object.paginator.num_pages}} pages
+            </div>
+            
+            <ul class="pagination align-right ms-auto justify-content-end">
+                {% if pg_object.has_previous %}
+                <li {% if pg_object.number == 1 %} class="page-item active" {% endif %}><a class="page-link" href="?page=1">&laquo; 1</a></li>
+                <li class="page-item"> <a class="page-link" href="?page={{ pg_object.previous_page_number }}">Previous</a></li>
+                {% endif %}
+
+                {% if pg_object.has_next %}
+                <li class="page-item"> <a class="page-link" href="?page={{ pg_object.next_page_number }}">Next</a></li>
+                <li class="page-item"> <a class="page-link" href="?page={{ pg_object.paginator.num_pages }}">{{ pg_object.paginator.num_pages}} &raquo;</a></li>
+                {% endif %}
+
+            </ul>
+        </div>
+    {% endif %}
+    </div>
+</div>
+
+<script src="{% static 'js/searchDonors.js' %}"></script>
+{% endblock %}

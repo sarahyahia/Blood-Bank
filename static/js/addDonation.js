@@ -16,7 +16,7 @@ nationalIDField.addEventListener('keyup',(e)=>{
         nationalIDSuccessOutput.style.display = 'block';
         nationalIDSuccessOutput.textContent = `checking ${nationalIDValue}`;
 
-        fetch("/donations/validate-donor", {
+        fetch("/donors/donations/validate-donor", {
             body: JSON.stringify({ national_id: nationalIDValue }),
             method: "POST",
             headers : { 

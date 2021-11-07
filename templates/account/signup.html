@@ -17,7 +17,7 @@
 
 <div class="row justify-content-center">
   <div class="col-md-6 col-sm-12">
-    <form class="signup" id="signup_form" method="post" action="{% url 'donor-signup' %}">
+    <form class="signup" id="signup_form" method="post" action="{% url 'hospital-signup' %}">
       {% csrf_token %}
       {{ form|crispy }}
       {% if redirect_field_value %}

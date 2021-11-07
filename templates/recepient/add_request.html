@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title %}
+Request Blood Form
+{% endblock %}
+{% block content%}
+<div class="container mt-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'donations' %}">Recepients</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Request Blood</li>
+        </ol>
+    </nav>
+</div>
+<div class="card mx-4 mt-4">
+    <div class="card-header"><h2 class="pt-2 mx-3">Request Blood Form</h2></div>
+    <div class="card-body">
+        <form action="{% url 'add-request' %}" method="post">
+            {% include "_partials/messages.html" %}
+            {% csrf_token %}
+            <div class="mb-3 form-group">
+                <select name="blood_type" class="select form-control" required="" id="id_blood_type"> 
+                    <option  value="">---------</option> 
+                    {% for type in blood_types %}
+                    
+                    <option value="{{ type.id }}"
+                    {% if type.id == blood_request.blood_type.id %} 
+                    selected 
+                    {% endif %}
+                    >{{ type.name }}</option> 
+                    {% endfor %}
+                </select> 
+            </div>
+            <div class="mb-3 form-group">
+                <label for="exampleInputUsername1" class="form-label">Quantity</label>
+                <input
+                type="number"
+                name="quantity"
+                id="quantityField"
+                value="{{blood_request.quantity}}"
+                class="form-control"
+                />
+            </div>
+            <div class="mb-3 form-group">
+                <select name="patient_status" class="select form-control" required="" id="id_patient_status"> 
+                    <option  value="">---------</option>                     
+                    <option value="Immediate"
+                    {% if blood_request.patient_status == 'immediate' %} 
+                    selected 
+                    {% endif %}
+                    >Immediate</option>
+                    <option value="Urgent"
+                    {% if blood_request.patient_status == 'Urgent' %} 
+                    selected 
+                    {% endif %}
+                    >Urgent</option>
+                    <option value="Normal"
+                    {% if blood_request.patient_status == 'Normal' %} 
+                    selected 
+                    {% endif %}
+                    >Normal</option>
+                </select> 
+            </div>
+            <div class="d-grid gap-2 mx-3">
+                <button type="submit" class="btn btn-block btn-primary submit-btn">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+{% endblock %}

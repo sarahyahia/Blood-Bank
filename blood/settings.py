@@ -28,7 +28,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY',)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'authentication',
     'city',
     'donor',
+    'recepient',
 ]
 
 MIDDLEWARE = [
@@ -173,9 +174,9 @@ EMAIL_USE_TLS = True
 SITE_ID = 2
 
 
-LOGIN_REDIRECT_URL ='/'
+LOGIN_REDIRECT_URL ='/recepient/'
 ACCOUNT_EMAIL_REQUIRED = True
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 MESSAGE_TAGS = {
     messages.ERROR: 'danger'

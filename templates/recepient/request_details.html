@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title %}
+Request {{ blood_request.id }} Details
+{% endblock %}
+{% block content%}
+<div class="container mt-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'donors' %}">requests</a></li>
+            <li class="breadcrumb-item active" aria-current="page">reqeust details</li>
+        </ol>
+    </nav>
+</div>
+<div class="card mx-4 mt-4">
+    <div class="card-header"><h2 class="pt-2 mx-3">Request Details</h2></div>
+    <div class="card-body">
+    {% include "_partials/messages.html" %}
+        <h5 class="card-title text-uppercase fw-bold"><strong>Request No.: </strong>{{ blood_request.id }}</h5>
+        <p class="card-text">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>Hospital Name:</strong> {{ blood_request.hospital.hospital_name }}</li>
+                <li class="list-group-item"><strong>Blood Type:</strong> {{ blood_request.blood_type }}</li>
+                <li class="list-group-item"><strong>Patient Status:</strong> {{ blood_request.patient_status }}</li>
+                <li class="list-group-item"><strong>Quantity:</strong>{{ blood_request.quantity }}</li>
+                <li class="list-group-item"><strong>Request Status:</strong>{{ blood_request.request_status }}</li>
+                <li class="list-group-item"><strong>Create At:</strong>{{ blood_request.date }}</li>
+            </ul>
+        </p>
+        {% if not request.user.is_staff %}
+        <a href="{% url 'edit-request' blood_request.pk %}" class="btn btn-primary">Edit</a>
+        <a href="{% url 'delete-request' blood_request.pk %}" class="btn btn-danger">Delete</a>
+        {% else %}
+        <a href="" class="btn btn-primary">Accept</a>
+        <a href="" class="btn btn-danger">Reject</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
