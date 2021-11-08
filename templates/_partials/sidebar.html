@@ -30,17 +30,13 @@
             </h6>
             <ul class="nav flex-column mb-2">
                 <li class="nav-item">
-                    <a class="nav-link" href="">
-                    Blood Stock
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href=''>
-                    Blood Stock chart
+                    <a class="nav-link" href="{% url 'blood-stock' %}">
+                    Blood Bags Records
                     </a>
                 </li>
             </ul>
-            {% elif request.user.is_authenticated %}
+            {% endif %}
+            {% if request.user.is_authenticated %}
             <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
             <span>Recepients</span>
             <a class="link-secondary" href="#" aria-label="Add a new report">
@@ -53,32 +49,10 @@
                     requests
                     </a>
                 </li>
-                {% if not request.user.is_staff %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'requests' %}">
-                    notifications
-                    </a>
-                </li>
-                {% endif %}
+                
             </ul>
             {% endif %}
-            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-            <span>Settings</span>
-            <a class="link-secondary" href="#" aria-label="Add a new report">
-                <span data-feather="plus-circle"></span>
-            </a>
-            </h6>
-            <ul class="nav flex-column mb-2">
-                <li class="nav-item">
-                    <a class="nav-link" href="">
-                    General
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                    Account
-                    </a>
-                </li>
-            </ul>
+            
+            
         </div>
         </nav>

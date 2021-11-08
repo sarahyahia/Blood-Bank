@@ -7,5 +7,6 @@ urlpatterns = [
     path('add-request/', views.add_request, name='add-request'),
     path('edit-request/<int:id>', views.edit_request, name='edit-request'),
     path('delete-request/<int:id>', views.delete_request, name='delete-request'),
+    path('handle-requests/', views.handle_requests, name='handle-requests'),
 
 ]

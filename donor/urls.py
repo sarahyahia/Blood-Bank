@@ -18,5 +18,6 @@ urlpatterns = [
     
     # blood_stock
     path('blood-stock/', views.blood_stock, name='blood-stock' ),
+    path('search-blood-stock', csrf_exempt(views.search_blood_stock),name="search_blood_stock"),
     
 ]

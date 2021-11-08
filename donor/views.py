@@ -17,7 +17,6 @@ import threading
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import get_template
 from django.core.mail import EmailMultiAlternatives
-from django.core.mail import EmailMultiAlternatives
 from django.conf import settings
 from helpers.decorators import staff_required
 
@@ -73,14 +72,37 @@ def validate_national_id(value,request):
 
 
 ########################################################
+
+
+# def get_showing_donors(request, donors):
+#     if request.GET and request.GET.get('filter'):
+#         print(request.GET.get('filter'))
+#         if request.GET.get('filter') == 'unknown':
+#             donors = Donor.objects.filter(blood_virus_test="Unknown")
+#         elif request.GET.get('filter') == 'positive':
+#             donors = Donor.objects.filter(blood_virus_test= 'Positive')
+#         elif request.GET.get('filter') == 'Negative':
+#             donors = Donor.objects.filter(blood_virus_test= 'Negative')
+#     return donors
+
+
+########################################################
+
 @staff_required(login_url='/')
 def index(request):
     donors = Donor.objects.all()
-    paginator = Paginator(donors, 5)
+    unknown = Donor.objects.filter(blood_virus_test="Unknown").count
+    positive = Donor.objects.filter(blood_virus_test= 'Positive').count
+    negative = Donor.objects.filter(blood_virus_test= 'Negative').count
+    paginator = Paginator(donors, 20)
     pg_number = request.GET.get('page')
     pg_object = Paginator.get_page(paginator,pg_number)
     context = {
-        'donors':donors,
+        'donors': donors,
+        'all_count': donors.count,
+        'unknown':unknown,
+        'positive':positive,
+        'negative':negative,
         "pg_object":pg_object,
     }
     return render(request, 'donor/home.html',context)
@@ -252,7 +274,8 @@ def search_donors(request):
             search_str = json.loads(request.body).get('searchText')
             donors = Donor.objects.filter(national_id__startswith= search_str 
                         ) | Donor.objects.filter(
-                        city__name__istartswith=search_str )
+                        city__name__istartswith=search_str )| Donor.objects.filter(
+                        blood_virus_test__istartswith=search_str)
             donor_list = []
             for donor in donors:
                 donor_list.append({
@@ -272,7 +295,7 @@ def search_donors(request):
 def donation_list(request):
     donation_list = Donation.objects.all()
     print(donation_list)
-    paginator = Paginator(donation_list, 5)
+    paginator = Paginator(donation_list, 20)
     pg_number = request.GET.get('page')
     pg_object = Paginator.get_page(paginator,pg_number)
     context = {
@@ -341,7 +364,7 @@ def donation_details(request,id):
 @staff_required(login_url='/')
 def blood_stock(request):
     blood_banks = BloodStock.objects.all()
-    paginator = Paginator(blood_banks, 5)
+    paginator = Paginator(blood_banks, 20)
     pg_number = request.GET.get('page')
     pg_object = Paginator.get_page(paginator,pg_number)
     context = {
@@ -349,3 +372,26 @@ def blood_stock(request):
         "pg_object":pg_object,
     }
     return render(request, 'blood_stock/blood_banks.html',context)
+
+
+
+
+
+@staff_required(login_url='/')
+def search_blood_stock(request):
+    if request.method == 'POST':
+            search_str = json.loads(request.body).get('searchText')
+            bloods = BloodStock.objects.filter(blood_type__name__iexact= search_str 
+                        ) | BloodStock.objects.filter(
+                        blood_bank_city__name__istartswith=search_str )
+            blood_list = []
+            for blood in bloods:
+                blood_list.append({
+                "id": blood.id,
+                "expiration_date": blood.expiration_date,
+                "quantity": blood.quantity,
+                "blood_bank_city": blood.blood_bank_city.name,
+                "blood_type": blood.blood_type.name,
+                })
+            return JsonResponse(blood_list, safe=False) # safe parameter for parsing list {not object} data without problems
+

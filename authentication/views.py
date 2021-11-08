@@ -1,12 +1,12 @@
 from django.shortcuts import render
 from allauth.account.views import SignupView
 from .forms import HospitalSignupForm
-from helpers.decorators import auth_user_should_not_access
+from helpers.decorators import auth_user_should_not_access, NotAuthenticatedMixin
 
 
 
 # @auth_user_should_not_access
-class HospitalSignupView(SignupView):
+class HospitalSignupView(NotAuthenticatedMixin,SignupView):
     
     form_class = HospitalSignupForm
 

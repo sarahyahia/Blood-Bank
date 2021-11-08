@@ -2,7 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from donor.models import BloodType
 from authentication.models import HospitalUser
-
+from django.core.validators import MaxValueValidator
+from city.models import City
 
 
 
@@ -24,15 +25,27 @@ class Request(models.Model):
     blood_type = models.ForeignKey(BloodType, on_delete=models.CASCADE)
     patient_status = models.CharField(max_length=9,choices=PATIENT_STATUS_CHOICES)
     request_status = models.CharField(max_length=8,choices=STATUS_CHOICES)
-    quantity = models.IntegerField()
+    quantity = models.PositiveIntegerField(validators=[MaxValueValidator(4)])
     date = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ("-date",)
     
     def __str__(self):
-        return self.date
+        return str(self.id)
 
+
+
+# class BloodTransaction(models.Model):
+#     request = models.ForeignKey(Request, related_name='AcceptedRequest', on_delete=models.DO_NOTHING)
+#     date = models.DateTimeField(auto_now_add=True)
+#     blood_bank_city = models.ForeignKey(City, related_name='BloodBank', on_delete=models.DO_NOTHING)
+
+#     class Meta:
+#         ordering = ("-date",)
+    
+#     def __str__(self):
+#         return self.blood_bank_city
 
 # class Notification(models.Model):
 #     body = models.TextField(max_length=255)

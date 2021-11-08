@@ -4,6 +4,7 @@ from django.utils.translation import gettext_lazy as _
 from city.models import City
 from django.utils.timezone import now
 import datetime
+from django.core.validators import MaxValueValidator
 
 
 
@@ -12,7 +13,7 @@ class BloodType(models.Model):
     class Meta:
         ordering = ("name",)
     def __str__(self):
-        return self.name
+        return str(self.name)
 
 
 VIRUS_TEST_CHOICES=[
@@ -46,7 +47,7 @@ STATUS_CHOICES=[
 
 class Donation(models.Model):
     donor = models.ForeignKey(Donor, on_delete=models.DO_NOTHING)
-    quantity = models.DecimalField(max_digits=7, decimal_places=3)
+    quantity = models.PositiveIntegerField(validators=[MaxValueValidator(3)])
     status = models.CharField(max_length=8,choices=STATUS_CHOICES)
 
     class Meta:
@@ -58,11 +59,11 @@ class Donation(models.Model):
 class BloodStock(models.Model):
     blood_type = models.ForeignKey(BloodType, on_delete=models.CASCADE)
     blood_bank_city = models.ForeignKey(City ,on_delete=models.CASCADE)
-    quantity = models.DecimalField(max_digits=7, decimal_places=3)
+    quantity = models.PositiveIntegerField(validators=[MaxValueValidator(3)])
     expiration_date = models.DateField(default=now()+datetime.timedelta(days=42))
     
     class Meta:
-        ordering = ("blood_type",)
+        ordering = ("-expiration_date",)
     
     def __str__(self):
-        return self.blood_type
+        return str(self.blood_type)
