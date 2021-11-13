@@ -20,7 +20,7 @@ Donation information
         <h5 class="card-title text-uppercase fw-bold"><strong>Donor Name: </strong>{{ donation.donor.name }}</h5>
         <p class="card-text">
             <ul class="list-group list-group-flush">
-                <li class="list-group-item"><strong>Email:</strong> {{ donation.donor.email }}</li> 
+                <li class="list-group-item"><strong>Email:</strong> {{ donation.donor.user.email }}</li> 
                 <li class="list-group-item"><strong>Quantity:</strong> {{ donation.quantity}}</li>
                 <li class="list-group-item"><strong>Blood Type:</strong> {{ donation.donor.blood_type }}</li>
                 <li class="list-group-item"><strong>Status:</strong> {{ donation.status }}</li>

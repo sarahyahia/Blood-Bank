@@ -174,9 +174,9 @@ EMAIL_USE_TLS = True
 SITE_ID = 2
 
 
-LOGIN_REDIRECT_URL ='/recepient/'
+LOGIN_REDIRECT_URL ='profile'
 ACCOUNT_EMAIL_REQUIRED = True
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 MESSAGE_TAGS = {
     messages.ERROR: 'danger'

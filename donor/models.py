@@ -1,10 +1,9 @@
 from django.db import models
-from django.core.exceptions import ValidationError
-from django.utils.translation import gettext_lazy as _
 from city.models import City
 from django.utils.timezone import now
 import datetime
 from django.core.validators import MaxValueValidator
+
 
 
 
@@ -46,7 +45,7 @@ STATUS_CHOICES=[
 ]
 
 class Donation(models.Model):
-    donor = models.ForeignKey(Donor, on_delete=models.DO_NOTHING)
+    donor = models.ForeignKey(to='authentication.DonorUser', on_delete=models.DO_NOTHING)
     quantity = models.PositiveIntegerField(validators=[MaxValueValidator(3)])
     status = models.CharField(max_length=8,choices=STATUS_CHOICES)
 

@@ -14,11 +14,13 @@ Donation
                 </ol>
             </nav>
         </div>
+        {% if request.user.is_staff %}
         <div class="col-md-2">
             <a href="{% url 'add-donation' %}">
                 <input type="button" class="btn btn-primary btn-sm" value="Add Donation"/>
             </a>
         </div>
+        {% endif %}
     </div>
 
     <div class="container">
@@ -49,7 +51,7 @@ Donation
                 <tbody>
                 {% for donation in pg_object %}
                     <tr>
-                        <td><a class="txt-link" href="{% url 'donation' donation.pk %}">{{ donation.donor.email }}</a></td>
+                        <td><a class="txt-link" href="{% url 'donation' donation.pk %}">{{ donation.donor.user.email }}</a></td>
                         <td>{{donation.quantity }}</td>
                         <td>{{donation.status}}</td>
                     </tr>

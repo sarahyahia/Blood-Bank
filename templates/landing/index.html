@@ -4,6 +4,7 @@ home
 {% endblock %}
 {% block content %}
 <div class="container">
+        {% include "_partials/messages.html" %}
     <div class="row justify-content-center mt-5">
         <div class="col-md-10 col-sm-12 text-center">
             <h1 class="display-2">
@@ -16,7 +17,7 @@ home
             </p>
             <div class="d-grid gap-2 mt-5">
                 <a class="btn btn-lg btn-primary" href="{% url 'account_login' %}">Log In</a>
-                <a class="btn btn-lg btn-danger" href="{% url 'hospital-signup' %}">Register as Hospital</a>
+                <a class="btn btn-lg btn-danger" href="{% url 'signup-choices' %}">Register</a>
             </div>
         </div>
     </div>

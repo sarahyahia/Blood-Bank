@@ -34,8 +34,8 @@
     {% include "socialaccount/snippets/login_extra.html" %}
 
     {% else %}
-    <p>{% blocktrans %}If you have not created an account yet, then please
-    <a href="{{ signup_url }}">sign up for hospital</a> first.{% endblocktrans %}</p>
+    <p>If you have not created an account yet, then please
+    <a href="{% url 'signup-choices' %}">sign up</a> first.</p>
     {% endif %}
   </div>
 </div>

@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+{{ request.user.username }}'s profile
+{% endblock %}
+{% block content %}
+{% if donor %}
+<div class="container mt-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'donors' %}">Account</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Profile</li>
+        </ol>
+    </nav>
+</div>
+<div class="card mx-4 mt-4">
+    <div class="card-header"><h2 class="pt-2 mx-3">Profile</h2></div>
+    <div class="card-body">
+    {% include "_partials/messages.html" %}
+        <h5 class="card-title text-uppercase fw-bold"><strong>Name: </strong>{{ donor.name }}</h5>
+        <p class="card-text">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>National ID:</strong> {{ donor.national_id }}</li>
+                <li class="list-group-item"><strong>Email:</strong> {{ donor.user.email }}</li> 
+                <li class="list-group-item"><strong>City:</strong> {{ donor.city}}</li>
+                <li class="list-group-item"><strong>Blood Type:</strong> {{ donor.blood_type }}</li>
+                <li class="list-group-item"><strong>Last Donation Date:</strong> {{ donor.last_donation_date }}</li>
+                <li class="list-group-item"><strong>Blood Virus Test:</strong> 
+                    {{donor.blood_virus_test}}
+                </li>
+            </ul>
+        </p>
+    </div>
+</div>
+{% elif hospital %}
+<div class="container mt-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'donors' %}">Account</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Hospital Profile</li>
+        </ol>
+    </nav>
+</div>
+<div class="card mx-4 mt-4">
+    <div class="card-header"><h2 class="pt-2 mx-3">Profile</h2></div>
+    <div class="card-body">
+    {% include "_partials/messages.html" %}
+        <h5 class="card-title text-uppercase fw-bold"><strong>Name: </strong>{{ hospital.hospital_name }}</h5>
+        <p class="card-text">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>Email:</strong> {{ hospital.user.email }}</li> 
+                <li class="list-group-item"><strong>City:</strong> {{ hospital.city}}</li>
+            </ul>
+        </p>
+    </div>
+</div>
+{% elif is_admin %}
+<div class="container mt-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'donors' %}">Account</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Staff Profile</li>
+        </ol>
+    </nav>
+</div>
+<div class="card mx-4 mt-4">
+    <div class="card-header"><h2 class="pt-2 mx-3">Profile</h2></div>
+    <div class="card-body">
+    {% include "_partials/messages.html" %}
+        <p class="card-text">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>Username: </strong> {{ request.user.username }}</li>
+                <li class="list-group-item"><strong>Email: </strong> {{ request.user.email }}</li>
+                <li class="list-group-item"><strong>Role: </strong> 
+                    {% if request.user.is_superuser %}
+                    Admin
+                    {% elif request.user.is_staff  %}
+                    Staff
+                    {% endif %}
+                </li>
+            </ul>
+        </p>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

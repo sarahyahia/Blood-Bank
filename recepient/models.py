@@ -2,16 +2,15 @@ from django.db import models
 from django.contrib.auth.models import User
 from donor.models import BloodType
 from authentication.models import HospitalUser
-from django.core.validators import MaxValueValidator
 from city.models import City
 
 
 
 
 PATIENT_STATUS_CHOICES=[
-    ('Immediate', 'Immediate'),
-    ('Urgent', 'Urgent'),
-    ('Normal', 'Normal')
+    (1, 'Immediate'),
+    (2, 'Urgent'),
+    (3, 'Normal')
 ]
 
 STATUS_CHOICES=[
@@ -23,9 +22,9 @@ STATUS_CHOICES=[
 class Request(models.Model):
     hospital = models.ForeignKey(HospitalUser, on_delete=models.CASCADE)
     blood_type = models.ForeignKey(BloodType, on_delete=models.CASCADE)
-    patient_status = models.CharField(max_length=9,choices=PATIENT_STATUS_CHOICES)
+    patient_status = models.IntegerField(choices=PATIENT_STATUS_CHOICES)
     request_status = models.CharField(max_length=8,choices=STATUS_CHOICES)
-    quantity = models.PositiveIntegerField(validators=[MaxValueValidator(4)])
+    quantity = models.PositiveIntegerField()
     date = models.DateTimeField(auto_now_add=True)
 
     class Meta:

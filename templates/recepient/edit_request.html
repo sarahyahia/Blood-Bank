@@ -45,18 +45,18 @@ Request Blood Edit Form
             <div class="mb-3 form-group">
                 <select name="patient_status" class="select form-control" required="" id="id_patient_status"> 
                     <option  value="">---------</option>                     
-                    <option value="Immediate"
-                    {% if blood_request.patient_status == 'immediate' %} 
+                    <option value=1
+                    {% if blood_request.patient_status == 1 %} 
                     selected 
                     {% endif %}
                     >Immediate</option>
-                    <option value="Urgent"
-                    {% if blood_request.patient_status == 'Urgent' %} 
+                    <option value=2
+                    {% if blood_request.patient_status == 2 %} 
                     selected 
                     {% endif %}
                     >Urgent</option>
-                    <option value="Normal"
-                    {% if blood_request.patient_status == 'Normal' %} 
+                    <option value=3
+                    {% if blood_request.patient_status == 3 %} 
                     selected 
                     {% endif %}
                     >Normal</option>

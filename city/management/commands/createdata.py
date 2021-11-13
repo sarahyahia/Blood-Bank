@@ -6,6 +6,9 @@ from city.models import City
 from donor.models import Donor, BloodType, Donation, BloodStock
 from faker.providers import DynamicProvider
 import datetime
+import os, json
+from django.conf import settings
+
 
 
 site_city_provider = DynamicProvider(
@@ -23,9 +26,17 @@ class Provider(BaseProvider):
     
 class Command(BaseCommand):
     help = "Command information"
-
     def handle(self, *args, **kwargs):
-
+        
+        
+        # file_path = os.path.join(settings.BASE_DIR, 'eg.json')
+        # with open(file_path, 'rb') as json_file:
+        
+        #     data = json.load(json_file)
+        #     for i in range(len(data)):
+        #         City.objects.create(name=data[i]["city"], longitude=data[i]["lng"], latitude= data[i]["lat"])
+        
+        
         fake = Faker(["nl_NL"])
         fake.add_provider(Provider)
         fake.add_provider(site_city_provider)
@@ -33,7 +44,6 @@ class Command(BaseCommand):
         
         
         for _ in range(100):
-            # City.objects.create(name=fake.city(), longitude=fake.longitude(), latitude= fake.latitude())
             # name = fake.name()
             # national_id = random.randint(23001010000000,32111089999999)
             # email = fake.unique.email()
@@ -53,9 +63,9 @@ class Command(BaseCommand):
             #     status = 'pending'
             # )
             
-            BloodStock.objects.create(
-                blood_type= fake.blood_type(),
-                blood_bank_city = fake.site_city(),
-                quantity = random.randint(1,3),
-                expiration_date = fake.past_date()+datetime.timedelta(days=42)
-            )
+            # BloodStock.objects.create(
+            #     blood_type= fake.blood_type(),
+            #     blood_bank_city = fake.site_city(),
+            #     quantity = random.randint(5,10),
+            #     expiration_date = fake.past_date()+datetime.timedelta(days=42)
+            # )

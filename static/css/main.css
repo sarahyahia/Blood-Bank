@@ -1,3 +1,6 @@
 .txt-link {
     text-decoration: none;
 }
+.ui-datepicker .ui-widget-content{
+    background-color:#999 none ;
+}

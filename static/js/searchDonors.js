@@ -9,9 +9,9 @@ const noResults= document.querySelector('.no-results');
 
 tableOutput.style.display = 'none';
 
-searchField.addEventListener('keyup', (e) => {
-    console.log('up')
-    const searchValue = e.target.value;
+searchField.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter'){
+        const searchValue = e.target.value;
     
     if (searchValue.trim().length > 0) {
         
@@ -26,6 +26,7 @@ searchField.addEventListener('keyup', (e) => {
             }
         }).then((response) => response.json())
         .then((data) => {
+            console.log(data);
             tableApp.style.display = 'none';
             tableOutput.style.display = 'block';
             if (data.length > 0) {
@@ -37,11 +38,7 @@ searchField.addEventListener('keyup', (e) => {
                     <td>${item.national_id}</td>
                     <td>${item.blood_type}</td>
                     <td>${item.city}</td>
-                    <td>
-                        <a href="edit-donor/${item.id}" class="btn btn-secondary btn-sm">
-                            Edit
-                        </a>
-                    </td>
+                    <td>${item.blood_virus_test}</td>
                     </tr>`;
                 });
             }else {
@@ -55,4 +52,5 @@ searchField.addEventListener('keyup', (e) => {
         paginationContainer.style.display = 'block';
         noResults.style.display='none'
     }
-});
+};
+})

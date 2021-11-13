@@ -22,10 +22,20 @@ Requests
         </div>
         {% else %}
         <div class="col-md-2">
-            <a href="{% url 'handle-requests' %}">
-                <input type="button" class="btn btn-primary btn-sm" value="Handle Pending Requests"/>
-            </a>
+        {% if not pending_requests %}
+        <input 
+            type="button" 
+            class="btn btn-primary btn-sm" 
+            value="Handle Pending Requests"
+            disabled
+        />
+
+        {% else %}
+        <a href="{% url 'handle-requests' %}">
+            <input type="button" class="btn btn-primary btn-sm" value="Handle Pending Requests" />
+        </a>
         </div>
+        {% endif %}
         {% endif %}
     </div>
 
@@ -61,7 +71,7 @@ Requests
                     <tr>
                         <td><a class="txt-link" href="{% url 'request' request.pk %}">{{request.hospital.hospital_name}}</a></td>
                         <td>{{request.blood_type}}</td>
-                        <td>{{request.patient_status}}</td>
+                        <td>{% if request.patient_status  == 1 %}Immediate{% elif request.patient_status == 2%}Urgent{% else%}Normal{% endif %}</td>
                         <td>{{request.quantity}}</td>
                         <td>{{request.request_status}}</td>
                     </tr>

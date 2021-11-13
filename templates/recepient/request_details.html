@@ -22,7 +22,7 @@ Request {{ blood_request.id }} Details
             <ul class="list-group list-group-flush">
                 <li class="list-group-item"><strong>Hospital Name:</strong> {{ blood_request.hospital.hospital_name }}</li>
                 <li class="list-group-item"><strong>Blood Type:</strong> {{ blood_request.blood_type }}</li>
-                <li class="list-group-item"><strong>Patient Status:</strong> {{ blood_request.patient_status }}</li>
+                <li class="list-group-item"><strong>Patient Status:</strong> {% if blood_request.patient_status  == 1 %}Immediate{% elif blood_request.patient_status == 2%}Urgent{% else%}Normal{% endif %}</li>
                 <li class="list-group-item"><strong>Quantity:</strong>{{ blood_request.quantity }}</li>
                 <li class="list-group-item"><strong>Request Status:</strong>{{ blood_request.request_status }}</li>
                 <li class="list-group-item"><strong>Create At:</strong>{{ blood_request.date }}</li>

@@ -21,24 +21,19 @@ Donor Profile
         <p class="card-text">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item"><strong>National ID:</strong> {{ donor.national_id }}</li>
-                <li class="list-group-item"><strong>Email:</strong> {{ donor.email }}</li> 
+                <li class="list-group-item"><strong>Email:</strong> {{ donor.user.email }}</li> 
                 <li class="list-group-item"><strong>City:</strong> {{ donor.city}}</li>
                 <li class="list-group-item"><strong>Blood Type:</strong> {{ donor.blood_type }}</li>
                 <li class="list-group-item"><strong>Last Donation Date:</strong> {{ donor.last_donation_date }}</li>
                 <li class="list-group-item"><strong>Blood Virus Test:</strong> 
-                    {% if donor.blood_virus_test == 'Unknown'  %} 
-                    Unknown
-                    {% elif donor.blood_virus_test == 'Positive' %}
-                    Positive
-                    {% elif donor.blood_virus_test == 'Negative' %} 
-                    Negative
-                    {% endif %}
+                    {{donor.blood_virus_test}}
                 </li>
             </ul>
         </p>
-
-        <a href="{% url 'edit-donor' donor.pk %}" class="btn btn-primary">Edit</a>
-        <a href="{% url 'delete-donor' donor.pk %}" class="btn btn-danger">Delete</a>
+        <div class="d-grid gap-2 mx-5">
+            <a href="{% url 'edit-donor' donor.pk %}" class="btn btn-danger btn-xs">Edit</a>
+        </div>
+        {% comment %} <a href="{% url 'delete-donor' donor.pk %}" class="btn btn-danger">Delete</a> {% endcomment %}
     </div>
 </div>
 {% endblock %}
