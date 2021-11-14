@@ -43,7 +43,7 @@ class Command(BaseCommand):
         
         
         
-        for _ in range(100):
+        for _ in range(20):
             # name = fake.name()
             # national_id = random.randint(23001010000000,32111089999999)
             # email = fake.unique.email()
@@ -63,9 +63,9 @@ class Command(BaseCommand):
             #     status = 'pending'
             # )
             
-            # BloodStock.objects.create(
-            #     blood_type= fake.blood_type(),
-            #     blood_bank_city = fake.site_city(),
-            #     quantity = random.randint(5,10),
-            #     expiration_date = fake.past_date()+datetime.timedelta(days=42)
-            # )
+            BloodStock.objects.create(
+                blood_type= fake.blood_type(),
+                blood_bank_city = fake.site_city(),
+                quantity = random.randint(5,10),
+                expiration_date = fake.past_date()+datetime.timedelta(days=42)
+            )

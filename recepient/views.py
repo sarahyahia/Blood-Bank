@@ -215,6 +215,7 @@ def get_matched_query_for_request(request):
         matched_blood = blood_available_by_type[min_distance_index]
         if request.quantity <= matched_blood.quantity:
             quantity_diff = matched_blood.quantity - request.quantity
+            print(min_distance)
             return {
                 'matched_blood_record': matched_blood, 
                 'request':request, 
@@ -236,23 +237,30 @@ def get_sorted_pending_requests():
         if result:
             temp_acceptable.append(result)
     temp_acceptable = sorted(temp_acceptable, key = lambda i: (i['blood_type'], i['min_distance'], i['patient_status']))
+    print(temp_acceptable)
     return temp_acceptable
 
 
 def handle_request_automatically():
     while get_sorted_pending_requests().count:
         for request in get_sorted_pending_requests():
-            if request['matched_blood_record'].quantity - request['request'].quantity >= 0:
-                quantity_diff = request['matched_blood_record'].quantity - request['request'].quantity
-                request['request'].request_status = 'Accepted'
-                request['request'].save()
-                request['matched_blood_record'].quantity = quantity_diff
-                if not quantity_diff :
-                    request['matched_blood_record'].delete()
-                else:
-                    request['matched_blood_record'].save()
-            elif not get_matched_query_for_request(request):
-                continue
+            try:
+                request['matched_blood_record']= BloodStock.objects.get(pk=request['matched_blood_record'].pk)
+                if request['matched_blood_record'].quantity - request['request'].quantity >= 0:
+                    quantity_diff = request['matched_blood_record'].quantity - request['request'].quantity
+                    request['request'].request_status = 'Accepted'
+                    request['request'].save()
+                    request['matched_blood_record'].quantity = quantity_diff
+                    if not quantity_diff :
+                        print(quantity_diff)
+                        request['matched_blood_record'].delete()
+                    else:
+                        print(quantity_diff, 'else')
+                        request['matched_blood_record'].save()
+                elif not get_matched_query_for_request(request['request']):
+                    continue
+            except BloodStock.DoesNotExist:
+                handle_request_automatically()
         return True
 
 
